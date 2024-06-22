@@ -6,6 +6,7 @@ import dh.backend.clinicamvc.entity.Domicilio;
 import dh.backend.clinicamvc.entity.Odontologo;
 import dh.backend.clinicamvc.entity.Paciente;
 import dh.backend.clinicamvc.entity.Turno;
+import dh.backend.clinicamvc.exception.BadRequestException;
 import dh.backend.clinicamvc.service.impl.OdontologoService;
 import dh.backend.clinicamvc.service.impl.PacienteService;
 import dh.backend.clinicamvc.service.impl.TurnoService;
@@ -62,7 +63,7 @@ public class TurnoServiceTest {
 
     @Test
     @DisplayName("Testear que un turno fue guardado")
-    void testTurnoGuardado(){
+    void testTurnoGuardado() throws BadRequestException {
         Odontologo odontologo1 = odontologoService.registrarOdontologo(odontologo);
         LOGGER.info("Odontólogo agregado: "+ odontologo1);
         Paciente paciente1 = pacienteService.registrarPaciente(paciente);

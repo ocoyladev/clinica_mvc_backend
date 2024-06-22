@@ -2,6 +2,7 @@ package dh.backend.clinicamvc.controller;
 
 
 import dh.backend.clinicamvc.entity.Odontologo;
+import dh.backend.clinicamvc.exception.ResourceNotFoundException;
 import dh.backend.clinicamvc.service.IOdontologoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,16 +68,10 @@ public class OdontologoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> borrarOdontologo(@PathVariable Integer id){
-        Optional<Odontologo> odontologoOptional = odontologoService.buscarPorId(id);
-        if(odontologoOptional.isPresent()){
-            odontologoService.eliminarOdontologo(id);
-            LOGGER.info("Odontólogo eliminado");
-            return ResponseEntity.ok("{\"message\": \"odontologo eliminado\"}");
-        }else {
-            LOGGER.info("Odontólogo no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<String> borrarOdontologo(@PathVariable Integer id) throws ResourceNotFoundException {
+        odontologoService.eliminarOdontologo(id);
+        LOGGER.info("Odontólogo eliminado");
+        return ResponseEntity.ok("{\"message\": \"odontologo eliminado\"}");
     }
 
     @GetMapping("/apellido/{apellido}")

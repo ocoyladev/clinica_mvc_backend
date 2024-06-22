@@ -4,6 +4,7 @@ import dh.backend.clinicamvc.Dto.request.TurnoRequestDto;
 import dh.backend.clinicamvc.Dto.response.TurnoResponseDto;
 import dh.backend.clinicamvc.entity.Odontologo;
 import dh.backend.clinicamvc.entity.Turno;
+import dh.backend.clinicamvc.exception.BadRequestException;
 import dh.backend.clinicamvc.service.ITurnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +29,10 @@ public class TurnoController {
     }
 
     @PostMapping
-    public ResponseEntity<TurnoResponseDto> agregarTurno(@RequestBody TurnoRequestDto turno){
+    public ResponseEntity<TurnoResponseDto> agregarTurno(@RequestBody TurnoRequestDto turno) throws BadRequestException {
         TurnoResponseDto turnoADevolver = turnoService.registrarTurno(turno);
-        if(turnoADevolver==null){
-            LOGGER.info("Turno no se creó");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } else {
-            LOGGER.info("Turno creado");
-            return ResponseEntity.status(HttpStatus.CREATED).body(turnoADevolver);
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(turnoADevolver);
+
     }
     @GetMapping
     public ResponseEntity<List<TurnoResponseDto>> buscarTodosTurnos(){
@@ -53,14 +49,14 @@ public class TurnoController {
     public ResponseEntity<String> modificarTurno(@PathVariable Integer id, @RequestBody TurnoRequestDto turno){
         turnoService.actualizarTurno(id, turno);
         LOGGER.info("Se actualizó el turno");
-        return ResponseEntity.ok("Turno modificado");
+        return ResponseEntity.ok("{\"message\": \"turno modificado\"}");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarTurno(@PathVariable Integer id){
         turnoService.eliminarTurno(id);
         LOGGER.info("Se eliminó el turno");
-        return ResponseEntity.ok("Turno eliminado");
+        return ResponseEntity.ok("{\"message\": \"turno eliminado\"}");
     }
 
 
